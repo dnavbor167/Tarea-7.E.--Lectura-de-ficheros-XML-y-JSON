@@ -129,6 +129,16 @@ public class readWrite {
         // Escribe en un fichero JSON el catálogo de muebles
         mapeador.writeValue(new File(file), listArray);
     }
+    
+    public static void writeJson(String file, App app) throws IOException {
+        ObjectMapper mapeador = new ObjectMapper();
+
+        // Formato JSON bien formateado. Si se comenta, el fichero queda minificado
+        mapeador.configure(SerializationFeature.INDENT_OUTPUT, true);
+
+        // Escribe en un fichero JSON el catálogo de muebles
+        mapeador.writeValue(new File(file), app);
+    }
 
     public static ArrayList<App> readJson(String file) throws IOException {
         ObjectMapper mapeador = new ObjectMapper();
@@ -137,5 +147,11 @@ public class readWrite {
                 mapeador.getTypeFactory().constructCollectionType(ArrayList.class, App.class));
 
         return catalogo;
+    }
+    
+    public static App readJson2(String file) throws IOException {
+        ObjectMapper mapeador = new ObjectMapper();
+
+        return mapeador.readValue(new File(file), App.class);
     }
 }

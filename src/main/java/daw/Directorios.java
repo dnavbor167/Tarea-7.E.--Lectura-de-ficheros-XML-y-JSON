@@ -6,8 +6,10 @@ package daw;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -32,29 +34,17 @@ public class Directorios {
         }
 
     }
-
-    // Copiado de ficheros
-    public static void copiarFicheros(String rutaOrigen, String rutaDestino) {
-        Path origen = Paths.get(rutaOrigen);
-        Path destino = Paths.get(rutaDestino);
-        try {
-            Files.copy(origen, destino);
-        } catch (IOException e) {
-            System.out.println("Problema copiando el archivo.");
-            System.out.println(e.toString());
-        }
-    }
-
-    // Este método genera un fichero vacío en la ruta especificada
-    public static void crearFichero(String ruta) {
+    
+    public static void borrarElemento(String ruta) {
         Path file = Paths.get(ruta);
         try {
-            Files.createFile(file);
-        } catch (FileAlreadyExistsException faee) {
-            System.out.println("No se puede crear " + ruta + " porque ya existe");
+            Files.delete(file);
+        } catch (NoSuchFileException nsfe) {
+            System.out.println("No se puede borrar " + ruta + " porque no existe");
+        } catch (DirectoryNotEmptyException dnee) {
+            System.out.println("No se puede borrar el directorio porque no está vacío");
         } catch (IOException e) {
-            System.out.println("Problema creando el archivo " + ruta);
-            System.out.println("Probablemente la ruta esté mal escrita.");
+            System.out.println("Problema borrando el elemento " + ruta);
         }
     }
 }
